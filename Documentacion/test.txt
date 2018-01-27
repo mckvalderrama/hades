@@ -1,0 +1,9 @@
+Subir en esta carpeta la documentacion de el proyecto
+-Notas
+-investigaciones
+-analisis general
+-base de datos
+-diagrama de base de datos
+-diagrama de procesos
+-calendarizacion
+-avances en general
