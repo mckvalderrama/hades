@@ -11,6 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+Route::get('', 'CapillaController@index');
+/*Para logearse*/Route::post('Bienvenido','CapillaController@inicio');
+/*para cerrar sesion*/Route::get('cerrar_session','CapillaController@session_destroy');
+
+
+/*para mandar a vista persona*/ Route::get('Personas','PersonaController@persona');
