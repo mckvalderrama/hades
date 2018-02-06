@@ -135,7 +135,7 @@
                 <i class=""></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{ action('PersonaController@persona')}}" ><i class="fa fa-circle-o"></i> Dar de alta</a></li>
+                <li><a href="{{ action('PersonaController@index')}}" ><i class="fa fa-circle-o"></i> Dar de alta</a></li>
                 <li><a href="#"><i class="fa fa-circle-o"></i> Directorio</a></li>
               </ul>
             </li>

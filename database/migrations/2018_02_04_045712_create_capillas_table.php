@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInmuebleSalaTable extends Migration
+class CreateCapillasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,16 @@ class CreateInmuebleSalaTable extends Migration
      */
     public function up()
     {
-        Schema::create('inmueble_sala', function(Blueprint $table)
-            {
-                $table->increments('id');
-                $table->string('nombre');
-                
-                $table->timestamps();
-            });
+        Schema::create('capillas', function(Blueprint $table)
+        {
+
+            $table->increments('id');
+            $table->string('nombre');
+            $table->text('descripcion');
+
+            
+            $table->timestamps();
+        });
     }
 
     /**
@@ -29,6 +32,6 @@ class CreateInmuebleSalaTable extends Migration
      */
     public function down()
     {
-        Shema::dropIfExists('inmuebel_sala');
+         Schema::dropIfExists('capillas');
     }
 }

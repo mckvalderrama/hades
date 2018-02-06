@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStatuTable extends Migration
+class CreateCategoriasEventosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateStatuTable extends Migration
      */
     public function up()
     {
-        Schema::create('statu', function(Blueprint $table)
+        Schema::create('categorias_eventos', function(Blueprint $table)
             {
                 $table->increments('id');
-                $table->string('statu');
+                $table->string('nombre');
                 $table->boolean('activo');
+                
                 $table->timestamps();
             });
     }
@@ -29,6 +30,7 @@ class CreateStatuTable extends Migration
      */
     public function down()
     {
-        Shema::dropIfExists('statu');
+        Shema::dropIfExists('categorias_eventos');
     }
+    
 }

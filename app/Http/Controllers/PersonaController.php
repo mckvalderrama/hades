@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Persona;
+use App\Usuario;
 use DB;
 use Validator;
 
@@ -15,8 +17,8 @@ class PersonaController extends Controller
      */
     public function index()
     {
-         return view('index', []);
-    }
+       return view('persona', []);
+   }
 
     /**
      * Show the form for creating a new resource.
@@ -28,19 +30,9 @@ class PersonaController extends Controller
         //
     }
 
-      public function persona(Request $request)
-  
-      $resultado = Persona::where('')
-  
+    public function persona(Request $request)
     {
-        if (session()->has('usuario') && session()->has('name_user')) {
-           //Obtener y mandar a la vista toda la informacion de los usuarios registrados en el sistema
-           
-            return view('persona');
-        }else{
-            return redirect(action('UsuarioController@index'));
-        }
-        
+       
 
     }
 

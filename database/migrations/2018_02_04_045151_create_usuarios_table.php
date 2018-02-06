@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRecintoTable extends Migration
+class CreateUsuariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,19 @@ class CreateRecintoTable extends Migration
      */
     public function up()
     {
-         Schema::create('recinto', function(Blueprint $table)
+        Schema::create('usuarios', function(Blueprint $table)
             {
+
+                
                 $table->increments('id');
-                $table->string('nombre');
-                $table->boolean('activo');
-               /* $table->integer('statu_id')->unsigned();            
-            $table->foreign('statu_id')->references('id')->on('statu');*/
+                $table->integer('tipo');
+                $table->string('usuario');
+                $table->string('contrasena');
                 $table->timestamps();
+                /*$table->integer('personas_id')->unsigned();
+                $table->foreign('personas_id')->references('id')->on('personas');*/
+                
+
             });
     }
 
@@ -31,6 +36,6 @@ class CreateRecintoTable extends Migration
      */
     public function down()
     {
-        Shema::dropIfExists('recinto');
+        Shema::dropIfExists('usuarios');
     }
 }

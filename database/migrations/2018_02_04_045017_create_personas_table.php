@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventoTable extends Migration
+class CreatePersonasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,18 @@ class CreateEventoTable extends Migration
      */
     public function up()
     {
-        Schema::create('evento', function(Blueprint $table)
+         Schema::create('personas', function(Blueprint $table)
         {
-            $table->engine = 'InnoDB';
+
+            
             $table->increments('id');
-            $table->datetime('fecha_inicio');
-            $table->datetime('fecha_fin');
+            $table->string('nombre');
+            $table->string('ap');
+            $table->string('am');
             
 
-            $table->integer('categoria_evento_id')->unsigned();            
-            $table->foreign('categoria_evento_id')->references('id')->on('categoria_evento');
             $table->timestamps();
+            
         });
     }
 
@@ -34,6 +35,6 @@ class CreateEventoTable extends Migration
      */
     public function down()
     {
-        Shema::dropIfExists('evento');
+        Schema::dropIfExists('personas');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFunerariaTable extends Migration
+class CreateStatusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateFunerariaTable extends Migration
      */
     public function up()
     {
-         Schema::create('funeraria', function(Blueprint $table)
+         Schema::create('status', function(Blueprint $table)
             {
                 $table->increments('id');
-                $table->string('nombre');
-                $table->string('direccion');
-                $table->string('telefono');
+                $table->string('statu');
+                $table->boolean('activo');
                 $table->timestamps();
             });
     }
@@ -30,6 +29,6 @@ class CreateFunerariaTable extends Migration
      */
     public function down()
     {
-        Shema::dropIfExists('funeraria');
+        Shema::dropIfExists('status');
     }
 }

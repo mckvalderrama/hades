@@ -18,4 +18,5 @@ Route::get('', 'CapillaController@index');
 /*para cerrar sesion*/Route::get('cerrar_session','CapillaController@session_destroy');
 
 
-/*para mandar a vista persona*/ Route::get('Personas','PersonaController@persona');
+/*para mandar a vista persona*/ Route::get('personas','PersonaController@index');
+/*para mandar a vista persona*/ Route::get('index','PersonaController@persona');

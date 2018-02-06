@@ -54,7 +54,7 @@ return [
             'engine' => null,
         ],
 
-        'capilla' => [
+        'capillas' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '3306'),

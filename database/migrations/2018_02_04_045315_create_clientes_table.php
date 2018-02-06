@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCapillaTable extends Migration
+class CreateClientesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateCapillaTable extends Migration
      */
     public function up()
     {
-        Schema::create('capilla', function(Blueprint $table)
+        Schema::create('clientes', function(Blueprint $table)
         {
-
-            $table->engine = 'InnoDB';
+            
             $table->increments('id');
-            $table->string('nombre');
-            $table->text('descripcion');
-
-            $table->integer('sala_id')->unsigned();            
-            $table->foreign('sala_id')->references('id')->on('sala');
+            
+            $table->string('direccion');
+            $table->integer('personas_id')->unsigned();
+            $table->foreign('personas_id')->references('id')->on('personas');
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ class CreateCapillaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('capilla');
+         Shema::dropIfExists('clientes');
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Usuario extends Model
 {
     
- 	protected $table = "usuario";
- 	protected $connection = "capilla";
+ 	protected $table = "usuarios";
+ 	protected $connection = "capillas";
 
 }
