@@ -2,140 +2,63 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Usuario;
-use DB;
+use App\Capilla;
 use Validator;
+use Response;
+use Illuminate\Support\Facades\Input;
+use App\http\Requests;
+use Illuminate\Http\Request;
+
+
 
 class CapillaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('index', []);
-    }
+	public function index()
+	{
+       /*return view('persona', []);
+       $personas = DB::personas('nombre', 'ap','am')->get();*/
 
-    
-     /* @return \Illuminate\Http\Response
-     */
+       $capilla = Capilla::paginate(4);
+       return view('capillas.capilla',compact('capilla'));
+   }
 
-    public function inicio(Request $request)
-    {
-           //confirmacion y validacion de usuario
-        $validator = Validator::make(
-            $request->all(),
-            [
-            'user' => 'required',
-            'pass' => 'required'
-            ]
-            );
+   public function addCapilla(Request $request){
+   	$cap = array(
+   		'nombre' => 'required',
+   		'descripcion' => 'required'
+   		
+   	);
 
-        $validator->after(function($validator) use($request){
-            if (!Usuario::where('usuario','=',$request->user)->where('contrasena','=',$request->pass)->exists()) {
-                $validator->errors()->add('erros_user', 'El usuario o la contraseña no es valido!');
-            }
-        });
-        if (!$validator->fails()) {
+   	$validator = Validator::make ( Input::all(), $cap);
+   	if ($validator->fails())
+   		return Response::json(array('erros'=> $validator->getMessageBag()->toarray()));
 
-            //Obtener datos de el usuario para la sesssion
-            $data_user = Usuario::select(DB::raw("usuario, contrasena"))->where('usuario','=',$request->user)->where('contrasena','=',$request->pass)->first();
+   	else{
+   		$cap = new Capilla;
+   		$cap->nombre = $request->nombre;
+   		$cap->descripcion = $request->descripcion;
+   		$cap->save();
+   		return response()->json($cap);
+   	}
 
-            //Se crea la session con las variables necesarias
-            session(['name_user' => $data_user->nombre, 'usuario' => $data_user->usuario, 'contrasena' => $data_user->contrasena]);
 
-           // Obtener y mandar a la vista toda la informacion de los usuarios registrados en el sistema
-            $resultado = Usuario::where('usuario','<>',$request->user)->where('contrasena','<>',$request->pass)->get();
-            return view('inicio', ['usuarios' => $resultado]);
+   }
 
-        }else{
-            return redirect()->back()->withErrors($validator->errors())->withInput($request->all);
-        }
-    }
+   public function editCapilla(request $request){
+   	$cap = Capilla::find ($request->id);
+   	$cap->nombre = $request->nombre;
+   	$cap->descripcion = $request->descripcion;
+   	$cap->save();
+   	return response()->json($cap);
+   }
 
-   /* public function inicio_user()
-    {
-        if (session()->has('usuario') && session()->has('name_user')) {
-           //Obtener y mandar a la vista toda la informacion de los usuarios registrados en el sistema
-            $resultado = Usuario::where('usuario','<>',session()->get('usuario'))->where('contrasena','<>',session()->get('contrasena'))->get();
-            return view('index', ['usuarios' => $resultado]);
-        }else{
-            return redirect(action('UsuarioController@login'));
-        }
-        
+   public function deleteCapilla(request $request){
+   	$cap = Capilla::find ($request->id)->delete();
+   	return response()->json();
+   }
 
-    }*/
 
-    public function session_destroy()
-    {
-        session()->flush();
-        return redirect(action('CapillaController@index'));
-    }
 
- 
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    
 }

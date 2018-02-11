@@ -72,7 +72,7 @@
                   <li class="user-footer">
 
                     <div class="pull-right">
-                      <a href="{{ action('CapillaController@session_destroy') }}" class="btn btn-default btn-flat">Cerrar Sesion</a>
+                      <a href="{{ action('InicioController@session_destroy') }}" class="btn btn-default btn-flat">Cerrar Sesion</a>
                     </div>
                   </li>
                 </ul>
@@ -100,8 +100,8 @@
                 <i class=""></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> Registrar evento</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Categorías</a></li>
+                <li><a href="{{ action('Categoria_eventoController@index')}}"><i class="fa fa-circle-o"></i> Registrar evento</a></li>
+                <li><a href=" "><i class="fa fa-circle-o"></i> Categorías</a></li>
               </ul>
             </li>
             
@@ -135,8 +135,30 @@
                 <i class=""></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{ action('PersonaController@index')}}" ><i class="fa fa-circle-o"></i> Dar de alta</a></li>
+                <li><a href="{{ action('PersonaController@index')}}" ><i class="fa fa-circle-o"></i> Listado de personas</a></li>
                 <li><a href="#"><i class="fa fa-circle-o"></i> Directorio</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fas fa-globe"></i>
+                <span>Recintos</span>
+                <i class=""></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{{ action('RecintoController@index')}}" ><i class="fa fa-circle-o"></i> Dar de alta</a></li>
+                
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fas fa-university"></i>
+                <span>Capillas</span>
+                <i class=""></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{{ action('CapillaController@index')}}" ><i class="fa fa-circle-o"></i> Dar de alta</a></li>
+                
               </ul>
             </li>
 

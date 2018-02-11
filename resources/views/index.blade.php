@@ -42,7 +42,7 @@
                 @foreach($errors as $error)
                  <h1>{{ print_r($error) }}</h1>
                 @endforeach
-                <form action="{{ action('CapillaController@inicio') }}" method="post">
+                <form action="{{ action('InicioController@inicio') }}" method="post">
                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   <br>
                   <label>Usuario</label>
