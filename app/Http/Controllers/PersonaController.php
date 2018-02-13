@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Persona;
-use App\Usuario;
-use DB;
 use Validator;
+use Response;
+use Illuminate\Support\Facades\Input;
+use App\http\Requests;
+use Illuminate\Http\Request;
+
 
 class PersonaController extends Controller
 {
@@ -17,78 +19,51 @@ class PersonaController extends Controller
      */
     public function index()
     {
-       return view('persona', []);
+       /*return view('persona', []);
+       $personas = DB::personas('nombre', 'ap','am')->get();*/
+
+       $persona = Persona::paginate(4);
+       return view('personas.persona',compact('persona'));
    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+   public function addPersona(Request $request){
+    $per = array(
+        'nombre' => 'required',
+        'ap' => 'required',
+        'am' => 'required'
+    );
+
+    $validator = Validator::make ( Input::all(), $per);
+    if ($validator->fails())
+        return Response::json(array('erros'=> $validator->getMessageBag()->toarray()));
+
+    else{
+        $per = new Persona;
+        $per->nombre = $request->nombre;
+        $per->ap = $request->ap;
+        $per->am = $request->am;
+        $per->save();
+        return response()->json($per);
     }
 
-    public function persona(Request $request)
-    {
-       
+    
+}
 
-    }
+public function editPersona(request $request){
+    $per = Persona::find ($request->id);
+    $per->nombre = $request->nombre;
+    $per->ap = $request->ap;
+    $per->am = $request->am;
+    $per->save();
+    return response()->json($per);
+}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+public function deletePersona(request $request){
+    $per = Persona::find ($request->id)->delete();
+    return response()->json();
+}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

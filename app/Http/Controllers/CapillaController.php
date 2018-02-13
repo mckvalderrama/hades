@@ -2,140 +2,75 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Usuario;
-use DB;
+use App\Capilla;
 use Validator;
+use Response;
+use Illuminate\Support\Facades\Input;
+use App\http\Requests;
+use Illuminate\Http\Request;
+use DB;
+
+
 
 class CapillaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+	 public function index()
     {
-        return view('index', []);
+        
+        
+        return view('capillas.capilla',[]);
     }
 
-    
-     /* @return \Illuminate\Http\Response
-     */
-
-    public function inicio(Request $request)
+    public function getCapilla()
     {
-           //confirmacion y validacion de usuario
-        $validator = Validator::make(
-            $request->all(),
-            [
-            'user' => 'required',
-            'pass' => 'required'
-            ]
+
+        $capilla = DB::table('capillas')
+        ->select('capillas.id', 'capillas.nombre', 'capillas.descripcion')
+        ->get();
+        foreach ($capilla as $value) {
+            $arreglo["data"][]=$value;
+        }
+        return Response::json($arreglo);
+    }
+
+
+    public function addCapilla(Request $request){
+
+        $cap = array(
+            'nombre' => 'required',
+            'descripcion' => 'required'
             );
 
-        $validator->after(function($validator) use($request){
-            if (!Usuario::where('usuario','=',$request->user)->where('contrasena','=',$request->pass)->exists()) {
-                $validator->errors()->add('erros_user', 'El usuario o la contraseña no es valido!');
-            }
-        });
-        if (!$validator->fails()) {
-
-            //Obtener datos de el usuario para la sesssion
-            $data_user = Usuario::select(DB::raw("usuario, contrasena"))->where('usuario','=',$request->user)->where('contrasena','=',$request->pass)->first();
-
-            //Se crea la session con las variables necesarias
-            session(['name_user' => $data_user->nombre, 'usuario' => $data_user->usuario, 'contrasena' => $data_user->contrasena]);
-
-           // Obtener y mandar a la vista toda la informacion de los usuarios registrados en el sistema
-            $resultado = Usuario::where('usuario','<>',$request->user)->where('contrasena','<>',$request->pass)->get();
-            return view('inicio', ['usuarios' => $resultado]);
-
-        }else{
-            return redirect()->back()->withErrors($validator->errors())->withInput($request->all);
+        $validator = Validator::make (Input::all(), $cap);
+        if ($validator->fails())
+            return redirect()->back()->withErrors($validator->erros());
+            //return Response::json(array('erros' => $validator->getMessageBag()->toarray()));
+        else{
+            $cap = new Capilla();
+            $cap->nombre = $request->nombre;
+           $cap->descripcion = $request->descripcion;
+            $cap->save();
+            return redirect()->back();
         }
+
     }
 
-   /* public function inicio_user()
-    {
-        if (session()->has('usuario') && session()->has('name_user')) {
-           //Obtener y mandar a la vista toda la informacion de los usuarios registrados en el sistema
-            $resultado = Usuario::where('usuario','<>',session()->get('usuario'))->where('contrasena','<>',session()->get('contrasena'))->get();
-            return view('index', ['usuarios' => $resultado]);
-        }else{
-            return redirect(action('UsuarioController@login'));
-        }
-        
-
-    }*/
-
-    public function session_destroy()
-    {
-        session()->flush();
-        return redirect(action('CapillaController@index'));
-    }
-
- 
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
+    public function editCapilla(request $request){
+  
+    $cap = Capilla::find($request->id_edit);
+    $cap->nombre = $request->nombre_edit;
+    $cap->descripcion = $request->descripcion_edit;
+    $cap->save();
+    return redirect()->back();
     
+}
+
+public function deleteCapilla(Request $request){
+    $cap = Capilla::find ($request->id_delete)->delete();
+    return redirect()->back();
+}
+
+
+
+
 }
